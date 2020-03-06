@@ -3,27 +3,34 @@
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="stylesheet" href="style.css" />
 		<title>Clock Application</title>
 	</head>
 	<body>
 		<div class="container">
+			<div class="calendar">
+				<p class="calendarDay">&nbsp;</p>
+				<p class="calendarDate">&nbsp;</p>
+			</div>
 			<div class="frame">
-				<div class="hours">
-					<h2>12</h2>
+				<div>
+					<h2 class="hours">&nbsp;</h2>
 				</div>
-				<p class="divider">&#58;</p>
-				<div class="mins">
-					<h2>12</h2>
+				<div class="divider">&#58;</div>
+				<div>
+					<h2 class="mins">12</h2>
 				</div>
-				<p class="divider">&#58;</p>
-				<div class="secs">
-					<h2>00</h2>
+				<div class="divider">&#58;</div>
+				<div>
+					<h2 class="secs">12</h2>
 				</div>
 				<div class="format">
 					<p class="day">am</p>
 					<p class="night">pm</p>
 				</div>
 			</div>
+			<button id="changeFormat">12 hour format</button>
 		</div>
+		<script src="index.js"></script>
 	</body>
 </html>
