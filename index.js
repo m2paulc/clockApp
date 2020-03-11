@@ -1,67 +1,62 @@
-const calendarDate = document.querySelector(".calendarDate");
-const calendarDay = document.querySelector(".calendarDay");
-const hours = document.querySelector(".hours");
-const minutes = document.querySelector(".mins");
-const seconds = document.querySelector(".secs");
+let militaryTime = true;
+
+window.onload = function init() {
+  showCalendar();
+  setClock();
+  setInterval(setClock, 1000);
+};
+
 const changeFormat = document.querySelector("#changeFormat");
-let hrFormat = 0;
-
 changeFormat.addEventListener("click", function () {
-  let hourClock = setHours();
-
   if (changeFormat.innerHTML === "12 hour format") {
     changeFormat.innerHTML = "24 hour format";
-    hrFormat = 12;
+    militaryTime = false;
   } else {
     changeFormat.innerHTML = "12 hour format";
-    hrFormat = 24;
+    militaryTime = true;
   }
 });
 
+
 function setClock() {
-  hours.innerHTML = setHours();
-  minutes.innerHTML = setMinutes();
-  seconds.innerHTML = setSeconds();
+  const now = new Date();
+  const hours = document.querySelector("#hours");
+  const minutes = document.querySelector("#mins");
+  const seconds = document.querySelector("#secs");
+  hours.innerHTML = getHours(now);
+  minutes.innerHTML = getMinutes(now);
+  seconds.innerHTML = getSeconds(now);
+  setTimeOfDay(now.getHours());
 }
 
-function setSeconds() {
-  const now = new Date();
+function getSeconds(now) {
   let secs = now.getSeconds();
-  if (secs < 10) {
-    secs = `0${now.getSeconds()}`;
-  }
-  return secs;
+  return secs < 10 ? secs = `0${secs}` : secs;
 }
 
-function setMinutes() {
-  const now = new Date();
+function getMinutes(now) {
   let mins = now.getMinutes();
-  if (mins < 10) {
-    mins = `0${now.getMinutes()}`;
-  }
-  return mins;
+  return mins < 10 ? mins = `0${mins}` : mins;
 }
 
-function setHours() {
-  const now = new Date();
+function getHours(now) {
   let hrs = now.getHours();
-  let timeOfDay = hrs;
-
-  if (hrFormat === 12) {
+  if (!militaryTime) {
     hrs = changeHourFormat(hrs);
   }
-  if (hrs < 10) hrs = `0${hrs}`;
-
-  setTimeOfDay(timeOfDay);
-  return hrs;
+  return (hrs < 10) ? hrs = `0${hrs}` : hrs;
 }
 
-function setTimeOfDay(hr) {
+function changeHourFormat(hours) {
+  return hours > 12 ? Math.ceil(hours % 12) : hours;
+}
+
+function setTimeOfDay(hours) {
   const container = document.querySelector(".container");
   const day = document.querySelector(".day");
   const night = document.querySelector(".night");
 
-  if (hr < 12) {
+  if (hours < 12) {
     day.style.fontWeight = "bold";
     //lighten the night class
     night.style.color = "gray";
@@ -73,7 +68,7 @@ function setTimeOfDay(hr) {
     day.style.opacity = 0.4;
   }
 
-  if (hr >= 18 || hr <= 5) {
+  if (hours >= 18 || hours <= 5) {
     container.classList.remove("dayTime");
     container.classList.add("nightTime");
   } else {
@@ -82,12 +77,6 @@ function setTimeOfDay(hr) {
   }
 }
 
-function changeHourFormat(hr) {
-  if (hr > 12) {
-    hr = Math.ceil(hr % 12);
-  }
-  return hr;
-}
 
 function showCalendar() {
   const now = new Date();
@@ -114,13 +103,11 @@ function showCalendar() {
     "Friday",
     "Saturday"
   ];
+  const calendarDate = document.querySelector(".calendarDate");
+  const calendarDay = document.querySelector(".calendarDay");
+
   calendarDay.innerHTML = dayArray[now.getDay()];
   calendarDate.innerHTML = `${
     monthArray[now.getMonth()]
     } ${now.getDate()}, ${now.getFullYear()}`;
 }
-
-window.onload = function init() {
-  showCalendar();
-  setInterval(setClock, 1000);
-};
