@@ -1,4 +1,4 @@
-let militaryTime = true;
+let isMilitaryTime = true;
 
 window.onload = function init() {
   showCalendar();
@@ -10,10 +10,10 @@ const changeFormat = document.querySelector("#changeFormat");
 changeFormat.addEventListener("click", function () {
   if (changeFormat.innerHTML === "12 hour format") {
     changeFormat.innerHTML = "24 hour format";
-    militaryTime = false;
+    isMilitaryTime = false;
   } else {
     changeFormat.innerHTML = "12 hour format";
-    militaryTime = true;
+    isMilitaryTime = true;
   }
 });
 
@@ -41,7 +41,7 @@ function getMinutes(now) {
 
 function getHours(now) {
   let hrs = now.getHours();
-  if (!militaryTime) {
+  if (!isMilitaryTime) {
     hrs = changeHourFormat(hrs);
   }
   return (hrs < 10) ? hrs = `0${hrs}` : hrs;
